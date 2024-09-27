@@ -17,4 +17,4 @@ Install [Postman CLI](https://learning.postman.com/docs/postman-cli/postman-cli-
 
     newman run '[downloaded file name].json'
 
-You can also just import my collection into Postman (either on Browser or using Postman Desktop App) and do 'Run collection'.
+You can also just import my Collection into Postman (either on Browser or using Postman Desktop App) and do 'Run collection'.
