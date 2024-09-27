@@ -7,7 +7,7 @@ API Collection retrieved from this Website : https://thinking-tester-contact-lis
 
 ## Requirements
 
-Install [Postman CLI](https://learning.postman.com/docs/postman-cli/postman-cli-installation/) or [Newman](https://learning.postman.com/docs/collections/using-newman-cli/installing-running-newman/) and download my Collection on this repository (file is on '.json' format).
+Install [Postman CLI](https://learning.postman.com/docs/postman-cli/postman-cli-installation/) or [Newman](https://learning.postman.com/docs/collections/using-newman-cli/installing-running-newman/) and download my API Collection on this repository (file is on '.json' format).
 
 ## Run Test using Postman CLI
 
@@ -17,4 +17,4 @@ Install [Postman CLI](https://learning.postman.com/docs/postman-cli/postman-cli-
 
     newman run '[downloaded file name].json'
 
-You can also just import my Collection into Postman (either on Browser or using Postman Desktop App) and do 'Run collection'.
+You can also just import my API Collection into Postman (either on Browser or using Postman Desktop App) and do 'Run collection'.
