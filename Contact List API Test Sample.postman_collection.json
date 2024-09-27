@@ -1,0 +1,639 @@
+{
+	"info": {
+		"_postman_id": "bca95972-92cb-4605-911e-584b2aa7f983",
+		"name": "Contact List API Test Sample",
+		"description": "This is the API Test Collection for the Contact List App:  \n[https://thinking-tester-contact-list.herokuapp.com/](https://thinking-tester-contact-list.herokuapp.com/)\n\nTest Scenario :\n\n1. Create User\n    \n2. Logout from newly created User\n    \n3. Login using newly created User\n    \n4. Get Contact List from newly Created User (should be empty)\n    \n5. Create new Contact\n    \n6. Get Contact List (should only exist 1)\n    \n7. Edit Contact List \"First Name\" and verify the changes\n    \n8. Delete Contact List\n    \n9. Delete User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10802601"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Verify registered First Name is correct : \"  + pm.collectionVariables.get(\"firstName\"), function () {",
+							"    pm.expect(jsonData.user.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));",
+							"});",
+							"pm.test(\"Verify registered Last Name is correct : \"  + pm.collectionVariables.get(\"lastName\"), function () {",
+							"    pm.expect(jsonData.user.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));",
+							"});",
+							"pm.test(\"Verify registered email is correct : \"  + pm.collectionVariables.get(\"email\"), function () {",
+							"    pm.expect(jsonData.user.email).to.eql(pm.collectionVariables.get(\"email\"));",
+							"});",
+							"",
+							"// ===== Setup Data for Collection Variable =====",
+							"const token = jsonData.token;",
+							"if (token) {",
+							"    pm.collectionVariables.set(\"token\", \"Bearer \" + token);",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"{{firstName}}\",\n    \"lastName\": \"{{lastName}}\",\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://thinking-tester-contact-list.herokuapp.com/users' \\\n  -H 'Accept: */*' \\\n  -H 'Accept-Language: en-US,en;q=0.9,id;q=0.8' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NjVhNWJlODdmMzAwMTNkNzZiNjIiLCJpYXQiOjE3Mjc0MjM5ODV9.wXQJkeAe1dqIOi3OhN6r4ApbgtdV_UFmFBUAaQBTSBo' \\\n  -H 'Origin: https://thinking-tester-contact-list.herokuapp.com' \\\n  -H 'Referer: https://thinking-tester-contact-list.herokuapp.com/addUser' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"' \\\n  --data-raw $'{\"firstName\":\"Zoro\",\"lastName\":\"Zeri\",\"email\":\"zorozeri@gmail.com\",\"password\":\"Password123\\u0021\"}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Log Out",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/users/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"logout"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://thinking-tester-contact-list.herokuapp.com/users/logout' \\\n  -X 'POST' \\\n  -H 'Accept: */*' \\\n  -H 'Accept-Language: en-US,en;q=0.9,id;q=0.8' \\\n  -H 'Authorization: Bearer' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Length: 0' \\\n  -H 'Origin: https://thinking-tester-contact-list.herokuapp.com' \\\n  -H 'Referer: https://thinking-tester-contact-list.herokuapp.com/logout' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"'"
+			},
+			"response": []
+		},
+		{
+			"name": "Log In",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Verify logged in First Name is correct : \"  + pm.collectionVariables.get(\"firstName\"), function () {",
+							"    pm.expect(jsonData.user.firstName).to.eql(pm.collectionVariables.get(\"firstName\"));",
+							"});",
+							"pm.test(\"Verify logged in Last Name is correct : \"  + pm.collectionVariables.get(\"lastName\"), function () {",
+							"    pm.expect(jsonData.user.lastName).to.eql(pm.collectionVariables.get(\"lastName\"));",
+							"});",
+							"pm.test(\"Verify logged in email is correct : \"  + pm.collectionVariables.get(\"email\"), function () {",
+							"    pm.expect(jsonData.user.email).to.eql(pm.collectionVariables.get(\"email\"));",
+							"});",
+							"",
+							"// ===== Setup Data for Collection Variable =====",
+							"const token = jsonData.token;",
+							"if (token) {",
+							"    pm.collectionVariables.set(\"token\", \"Bearer \" + token);",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://thinking-tester-contact-list.herokuapp.com/users/login' \\\n  -H 'Accept: */*' \\\n  -H 'Accept-Language: en-US,en;q=0.9,id;q=0.8' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmM4M2JlODdmMzAwMTNkNzZiN2YiLCJpYXQiOjE3Mjc0MjU2Njd9.P9spScPQE67kQE2yau5AFXRZvSRqGJcM3vGceP2D6To' \\\n  -H 'Origin: https://thinking-tester-contact-list.herokuapp.com' \\\n  -H 'Referer: https://thinking-tester-contact-list.herokuapp.com/' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"' \\\n  --data-raw $'{\"email\":\"zorozeri@gmail.com\",\"password\":\"Password123\\u0021\"}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Contact List - Empty List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Verify Contact List is Empty (user is newly created)\", function () {",
+							"    pm.expect(jsonData).to.be.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/contacts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contacts"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://thinking-tester-contact-list.herokuapp.com/contacts' \\\n  -H 'Accept: */*' \\\n  -H 'Accept-Language: en-US,en;q=0.9,id;q=0.8' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmM4M2JlODdmMzAwMTNkNzZiN2YiLCJpYXQiOjE3Mjc0MjU4ODl9.DJJTLm1HfTEDQqzHCB4d_UOaZAUQJiJfB0uFcSyqVJQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmM4M2JlODdmMzAwMTNkNzZiN2YiLCJpYXQiOjE3Mjc0MjU4ODl9.DJJTLm1HfTEDQqzHCB4d_UOaZAUQJiJfB0uFcSyqVJQ' \\\n  -H 'If-None-Match: W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\"' \\\n  -H 'Referer: https://thinking-tester-contact-list.herokuapp.com/contactList' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"'"
+			},
+			"response": []
+		},
+		{
+			"name": "Add #1st Contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Verify Contact 'First Name' is added correctly : \"  + pm.collectionVariables.get(\"contactFirstName\"), function () {",
+							"    pm.expect(jsonData.firstName).to.eql(pm.collectionVariables.get(\"contactFirstName\"));",
+							"});",
+							"pm.test(\"Verify Contact 'Last Name' is added correctly : \"  + pm.collectionVariables.get(\"contactLastName\"), function () {",
+							"    pm.expect(jsonData.lastName).to.eql(pm.collectionVariables.get(\"contactLastName\"));",
+							"});",
+							"pm.test(\"Verify Contact 'Birthdate' is added correctly : \"  + pm.collectionVariables.get(\"contactBirthDate\"), function () {",
+							"    pm.expect(jsonData.birthdate).to.eql(pm.collectionVariables.get(\"contactBirthDate\"));",
+							"});",
+							"pm.test(\"Verify Contact 'Email' is added correctly : \"  + pm.collectionVariables.get(\"contactEmail\"), function () {",
+							"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get(\"contactEmail\"));",
+							"});",
+							"pm.test(\"Verify Contact 'Phone' is added correctly : \"  + pm.collectionVariables.get(\"contactPhone\"), function () {",
+							"    pm.expect(jsonData.phone).to.eql(pm.collectionVariables.get(\"contactPhone\"));",
+							"});",
+							"pm.test(\"Verify Contact 'Street 1' is added correctly : \"  + pm.collectionVariables.get(\"contactStreet1\"), function () {",
+							"    pm.expect(jsonData.street1).to.eql(pm.collectionVariables.get(\"contactStreet1\"));",
+							"});",
+							"pm.test(\"Verify Contact 'Street 2' is added correctly : \"  + pm.collectionVariables.get(\"contactStreet2\"), function () {",
+							"    pm.expect(jsonData.street2).to.eql(pm.collectionVariables.get(\"contactStreet2\"));",
+							"});",
+							"pm.test(\"Verify Contact 'City' is added correctly : \"  + pm.collectionVariables.get(\"contactCity\"), function () {",
+							"    pm.expect(jsonData.city).to.eql(pm.collectionVariables.get(\"contactCity\"));",
+							"});",
+							"pm.test(\"Verify Contact 'Province' is added correctly : \"  + pm.collectionVariables.get(\"contactStateProvince\"), function () {",
+							"    pm.expect(jsonData.stateProvince).to.eql(pm.collectionVariables.get(\"contactStateProvince\"));",
+							"});",
+							"pm.test(\"Verify Contact 'Postal Code' is added correctly : \"  + pm.collectionVariables.get(\"contactPostalCode\"), function () {",
+							"    pm.expect(jsonData.postalCode).to.eql(pm.collectionVariables.get(\"contactPostalCode\"));",
+							"});",
+							"pm.test(\"Verify Contact 'Country Code' is added correctly : \"  + pm.collectionVariables.get(\"contactCountry\"), function () {",
+							"    pm.expect(jsonData.country).to.eql(pm.collectionVariables.get(\"contactCountry\"));",
+							"});",
+							"",
+							"// ===== Setup Data for Collection Variable =====",
+							"pm.collectionVariables.set(\"firstContactId\",jsonData._id);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"{{contactFirstName}}\",\n    \"lastName\": \"{{contactLastName}}\",\n    \"birthdate\": \"{{contactBirthDate}}\",\n    \"email\": \"{{contactEmail}}\",\n    \"phone\": \"{{contactPhone}}\",\n    \"street1\": \"{{contactStreet1}}\",\n    \"street2\": \"{{contactStreet2}}\",\n    \"city\": \"{{contactCity}}\",\n    \"stateProvince\": \"{{contactStateProvince}}\",\n    \"postalCode\": \"{{contactPostalCode}}\",\n    \"country\": \"{{contactCountry}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/contacts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contacts"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://thinking-tester-contact-list.herokuapp.com/contacts' \\\n  -H 'Accept: */*' \\\n  -H 'Accept-Language: en-US,en;q=0.9,id;q=0.8' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmM4M2JlODdmMzAwMTNkNzZiN2YiLCJpYXQiOjE3Mjc0MjU4ODl9.DJJTLm1HfTEDQqzHCB4d_UOaZAUQJiJfB0uFcSyqVJQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmM4M2JlODdmMzAwMTNkNzZiN2YiLCJpYXQiOjE3Mjc0MjU4ODl9.DJJTLm1HfTEDQqzHCB4d_UOaZAUQJiJfB0uFcSyqVJQ' \\\n  -H 'Origin: https://thinking-tester-contact-list.herokuapp.com' \\\n  -H 'Referer: https://thinking-tester-contact-list.herokuapp.com/addContact' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"' \\\n  --data-raw '{\"firstName\":\"Contact\",\"lastName\":\"One\",\"birthdate\":\"1991-01-01\",\"email\":\"zorozeri@gmail.com\",\"phone\":\"1234567890\",\"street1\":\"Address1\",\"street2\":\"Address2\",\"city\":\"City\",\"stateProvince\":\"Province\",\"postalCode\":\"12345\",\"country\":\"Country\"}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Contact List - One Contact List Created",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Verify #1st Contact 'First Name' is shown correctly : \"  + pm.collectionVariables.get(\"contactFirstName\"), function () {",
+							"    pm.expect(jsonData[0].firstName).to.eql(pm.collectionVariables.get(\"contactFirstName\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'Last Name' is shown correctly : \"  + pm.collectionVariables.get(\"contactLastName\"), function () {",
+							"    pm.expect(jsonData[0].lastName).to.eql(pm.collectionVariables.get(\"contactLastName\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'Birthdate' is shown correctly : \"  + pm.collectionVariables.get(\"contactBirthDate\"), function () {",
+							"    pm.expect(jsonData[0].birthdate).to.eql(pm.collectionVariables.get(\"contactBirthDate\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'Email' is shown correctly : \"  + pm.collectionVariables.get(\"contactEmail\"), function () {",
+							"    pm.expect(jsonData[0].email).to.eql(pm.collectionVariables.get(\"contactEmail\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'Phone' is shown correctly : \"  + pm.collectionVariables.get(\"contactPhone\"), function () {",
+							"    pm.expect(jsonData[0].phone).to.eql(pm.collectionVariables.get(\"contactPhone\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'Street 1' is shown correctly : \"  + pm.collectionVariables.get(\"contactStreet1\"), function () {",
+							"    pm.expect(jsonData[0].street1).to.eql(pm.collectionVariables.get(\"contactStreet1\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'Street 2' is shown correctly : \"  + pm.collectionVariables.get(\"contactStreet2\"), function () {",
+							"    pm.expect(jsonData[0].street2).to.eql(pm.collectionVariables.get(\"contactStreet2\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'City' is shown correctly : \"  + pm.collectionVariables.get(\"contactCity\"), function () {",
+							"    pm.expect(jsonData[0].city).to.eql(pm.collectionVariables.get(\"contactCity\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'Province' is shown correctly : \"  + pm.collectionVariables.get(\"contactStateProvince\"), function () {",
+							"    pm.expect(jsonData[0].stateProvince).to.eql(pm.collectionVariables.get(\"contactStateProvince\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'Postal Code' is shown correctly : \"  + pm.collectionVariables.get(\"contactPostalCode\"), function () {",
+							"    pm.expect(jsonData[0].postalCode).to.eql(pm.collectionVariables.get(\"contactPostalCode\"));",
+							"});",
+							"pm.test(\"Verify #1st Contact 'Country Code' is shown correctly : \"  + pm.collectionVariables.get(\"contactCountry\"), function () {",
+							"    pm.expect(jsonData[0].country).to.eql(pm.collectionVariables.get(\"contactCountry\"));",
+							"});",
+							"",
+							"// ===== Setup Data for Collection Variable =====",
+							"const firstContact = jsonData[0];",
+							"if (firstContact) {",
+							"    pm.collectionVariables.set(\"firstContactId\",jsonData[0]._id);",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/contacts",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contacts"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://thinking-tester-contact-list.herokuapp.com/contacts' \\\n  -H 'Accept: */*' \\\n  -H 'Accept-Language: en-US,en;q=0.9,id;q=0.8' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmM4M2JlODdmMzAwMTNkNzZiN2YiLCJpYXQiOjE3Mjc0MjU4ODl9.DJJTLm1HfTEDQqzHCB4d_UOaZAUQJiJfB0uFcSyqVJQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmM4M2JlODdmMzAwMTNkNzZiN2YiLCJpYXQiOjE3Mjc0MjU4ODl9.DJJTLm1HfTEDQqzHCB4d_UOaZAUQJiJfB0uFcSyqVJQ' \\\n  -H 'If-None-Match: W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\"' \\\n  -H 'Referer: https://thinking-tester-contact-list.herokuapp.com/contactList' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"'"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit #1st Contact List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Verify #1st Contact 'First Name' is edited correctly : \"  + pm.collectionVariables.get(\"contactFirstNameEdit\"), function () {",
+							"    pm.expect(jsonData.firstName).to.eql(pm.collectionVariables.get(\"contactFirstNameEdit\"));",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"{{contactFirstNameEdit}}\",\n    \"lastName\": \"{{contactLastName}}\",\n    \"birthdate\": \"{{contactBirthDate}}\",\n    \"email\": \"{{contactEmail}}\",\n    \"phone\": \"{{contactPhone}}\",\n    \"street1\": \"{{contactStreet1}}\",\n    \"street2\": \"{{contactStreet2}}\",\n    \"city\": \"{{contactCity}}\",\n    \"stateProvince\": \"{{contactStateProvince}}\",\n    \"postalCode\": \"{{contactPostalCode}}\",\n    \"country\": \"{{contactCountry}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/contacts/{{firstContactId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contacts",
+						"{{firstContactId}}"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://thinking-tester-contact-list.herokuapp.com/contacts/66f66efd352c8e001359dcd3' \\\n  -X 'PUT' \\\n  -H 'Accept: */*' \\\n  -H 'Accept-Language: en-US,en;q=0.9,id;q=0.8' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmQ4YmJlODdmMzAwMTNkNzZiODMiLCJpYXQiOjE3Mjc0MjY4Nzl9.3WDm06F9Yx29T3qmlGqDeVwHuJHAp5yPCM5dZx1WFqQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmQ4YmJlODdmMzAwMTNkNzZiODMiLCJpYXQiOjE3Mjc0MjY4Nzl9.3WDm06F9Yx29T3qmlGqDeVwHuJHAp5yPCM5dZx1WFqQ' \\\n  -H 'Origin: https://thinking-tester-contact-list.herokuapp.com' \\\n  -H 'Referer: https://thinking-tester-contact-list.herokuapp.com/editContact' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"' \\\n  --data-raw '{\"firstName\":\"ContactEdit\",\"lastName\":\"One\",\"birthdate\":\"1991-01-01\",\"email\":\"zorozeri@gmail.com\",\"phone\":\"1234567890\",\"street1\":\"Address1\",\"street2\":\"Address2\",\"city\":\"City\",\"stateProvince\":\"Province\",\"postalCode\":\"12345\",\"country\":\"Country\"}'"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete #1st Contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"#1st Contact is deleted\", function () {",
+							"    pm.expect(pm.response.text()).to.includes(\"Contact deleted\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/contacts/{{firstContactId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"contacts",
+						"{{firstContactId}}"
+					]
+				},
+				"description": "Generated from cURL: curl 'https://thinking-tester-contact-list.herokuapp.com/contacts/66f66efd352c8e001359dcd3' \\\n  -X 'DELETE' \\\n  -H 'Accept: */*' \\\n  -H 'Accept-Language: en-US,en;q=0.9,id;q=0.8' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmQ4YmJlODdmMzAwMTNkNzZiODMiLCJpYXQiOjE3Mjc0MjY4Nzl9.3WDm06F9Yx29T3qmlGqDeVwHuJHAp5yPCM5dZx1WFqQ' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmY2NmQ4YmJlODdmMzAwMTNkNzZiODMiLCJpYXQiOjE3Mjc0MjY4Nzl9.3WDm06F9Yx29T3qmlGqDeVwHuJHAp5yPCM5dZx1WFqQ' \\\n  -H 'Origin: https://thinking-tester-contact-list.herokuapp.com' \\\n  -H 'Referer: https://thinking-tester-contact-list.herokuapp.com/contactDetails' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"'"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/users/me",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"me"
+					]
+				},
+				"description": "The DELETE User operation is not available through the UI."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"// Global Function for Assert Status Code",
+					"utilFunctions = {",
+					"    assertStatusCode: function(pm, statusCode) {",
+					"        pm.test(\"Verify Response Code \" + statusCode, function() {",
+					"            pm.expect(pm.response.code).to.eql(statusCode);",
+					"        });",
+					"    }",
+					"};",
+					"",
+					"// Set collection variable",
+					"var moment = require('moment');",
+					"pm.collectionVariables.set('currentDate', moment().format((\"YYYY-MM-DD\")));"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"const res = pm.response;",
+					"",
+					"// Print Response Information",
+					"console.log(pm.info.requestName);",
+					"console.log(`Response Code: ${res.code} ${res.status}`);",
+					"console.log(`Response Time: ${res.responseTime} ms`);",
+					"",
+					"// Verifying Status Code",
+					"if(pm.response.code===201){",
+					"    utilFunctions.assertStatusCode(pm, 201);",
+					"} else {",
+					"    utilFunctions.assertStatusCode(pm, 200);",
+					"} "
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://thinking-tester-contact-list.herokuapp.com",
+			"type": "string"
+		},
+		{
+			"key": "firstName",
+			"value": "Zoro",
+			"type": "string"
+		},
+		{
+			"key": "lastName",
+			"value": "Zeri",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "zorozeri@gmail.com",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "Password123!",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "currentDate",
+			"value": ""
+		},
+		{
+			"key": "contactFirstName",
+			"value": "Contact",
+			"type": "string"
+		},
+		{
+			"key": "contactLastName",
+			"value": "One",
+			"type": "string"
+		},
+		{
+			"key": "contactBirthDate",
+			"value": "1991-01-01",
+			"type": "string"
+		},
+		{
+			"key": "contactEmail",
+			"value": "zorozeri@gmail.com",
+			"type": "string"
+		},
+		{
+			"key": "contactPhone",
+			"value": "1234567890",
+			"type": "string"
+		},
+		{
+			"key": "contactStreet1",
+			"value": "Address1",
+			"type": "string"
+		},
+		{
+			"key": "contactStreet2",
+			"value": "Address2",
+			"type": "string"
+		},
+		{
+			"key": "contactCity",
+			"value": "City",
+			"type": "string"
+		},
+		{
+			"key": "contactStateProvince",
+			"value": "Province",
+			"type": "string"
+		},
+		{
+			"key": "contactPostalCode",
+			"value": "12345",
+			"type": "string"
+		},
+		{
+			"key": "contactCountry",
+			"value": "Country",
+			"type": "string"
+		},
+		{
+			"key": "firstContactId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "contactFirstNameEdit",
+			"value": "ContactEdit",
+			"type": "string"
+		}
+	]
+}
