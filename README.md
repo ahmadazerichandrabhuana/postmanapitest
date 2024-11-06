@@ -3,7 +3,7 @@ Sample API Test using Postman Collection
 
 ## Website Test
 
-API Collection retrieved from this Website : https://thinking-tester-contact-list.herokuapp.com/
+API Collection retrieved from this Website : https://thinking-tester-contact-list.herokuapp.com/ (credit to [Kristin Jackvony](https://thinkingtester.com/about/))
 
 ## Requirements
 
