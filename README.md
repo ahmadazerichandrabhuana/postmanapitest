@@ -19,7 +19,7 @@ You can also just import my API Collection into Postman (either on Browser or us
 
     newman run '[downloaded file name].json'
 
-For a better test result, install [Newman Reporter HTMLExtra](https://www.npmjs.com/package/newman-reporter-htmlextra)(`npm install -g newman-reporter-htmlextra`) and run with this command : 
+For a better test result, install [Newman Reporter HTMLExtra](https://www.npmjs.com/package/newman-reporter-htmlextra) (`npm install -g newman-reporter-htmlextra`) and run with this command : 
 
     newman run '[downloaded file name].json' -r cli,htmlextra
 
